@@ -1,0 +1,1 @@
+-- Alteração já aplicada diretamente no banco.

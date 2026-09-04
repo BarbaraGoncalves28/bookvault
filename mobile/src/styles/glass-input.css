@@ -1,0 +1,95 @@
+.glass-input {
+  background: transparent !important;
+  background-color: transparent !important;
+
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+}
+
+.glass-input:focus,
+.glass-input:focus-visible,
+.glass-input:active,
+.glass-input:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+}
+
+/* =========================================
+   AUTOFILL — Chrome / Edge / Safari
+   ========================================= */
+
+.glass-input:-webkit-autofill,
+.glass-input:-webkit-autofill:hover,
+.glass-input:-webkit-autofill:focus,
+.glass-input:-webkit-autofill:active {
+  -webkit-text-fill-color: #201E2E !important;
+
+  background-color: transparent !important;
+  background: transparent !important;
+
+  border: none !important;
+  outline: none !important;
+
+  /*
+   * IMPORTANTE:
+   * neutraliza a pintura automática do navegador.
+   */
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  box-shadow: 0 0 0 1000px transparent inset !important;
+
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+/* =========================================
+   AUTOFILL — quando o campo está focado
+   ========================================= */
+
+.glass-input:-webkit-autofill:focus,
+.glass-input:-webkit-autofill:focus-visible {
+  background-color: transparent !important;
+  background: transparent !important;
+
+  -webkit-box-shadow:
+    0 0 0 1000px transparent inset !important;
+
+  box-shadow:
+    0 0 0 1000px transparent inset !important;
+
+  outline: none !important;
+  border: none !important;
+}
+
+  /*========== BOOK FORM INPUT ==========*/
+
+
+  .book-form-input {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+}
+
+.book-form-input:focus,
+.book-form-input:focus-visible,
+.book-form-input:active,
+.book-form-input:hover {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}

@@ -1,22 +1,65 @@
 {
-  "name": "projeto-bookvault",
+  "name": "bookvault",
   "version": "1.0.0",
-  "main": "index.ts",
+  "private": true,
+  "description": "BookVault full stack personal library",
+  "workspaces": [
+    "mobile",
+    "backend"
+  ],
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
+    "mobile:start": "npm --workspace @bookvault/mobile run start",
+    "mobile:android": "npm --workspace @bookvault/mobile run android",
+    "mobile:ios": "npm --workspace @bookvault/mobile run ios",
+    "mobile:web": "npm --workspace @bookvault/mobile run web",
+    "backend:dev": "npm --workspace @bookvault/backend run dev",
+    "backend:start": "npm --workspace @bookvault/backend run start",
+    "backend:typecheck": "npm --workspace @bookvault/backend run typecheck",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "typecheck": "npm run mobile:typecheck && npm run backend:typecheck",
+    "mobile:typecheck": "npm --workspace @bookvault/mobile run typecheck"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "axios": "^1.18.1",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "expo": "~54.0.34",
+    "expo-constants": "~18.0.13",
+    "expo-linking": "~8.0.12",
+    "expo-router": "~6.0.24",
     "expo-status-bar": "~3.0.9",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "lucide-react-native": "^1.23.0",
+    "nativewind": "^4.2.6",
+    "pg": "^8.22.0",
+    "prisma": "^7.8.0",
     "react": "19.1.0",
-    "react-native": "0.81.5"
+    "react-dom": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-reanimated": "~4.1.1",
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-screens": "~4.16.0",
+    "react-native-svg": "15.12.1",
+    "react-native-web": "^0.21.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^26.1.0",
     "@types/react": "~19.1.0",
+    "tailwindcss": "^3.4.19",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.23.0",
     "typescript": "~5.9.2"
   },
-  "private": true
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
