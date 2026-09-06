@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { LogOut } from 'lucide-react-native';
+import { LogOut, ShieldAlert } from 'lucide-react-native';
 import { router } from 'expo-router';
 import Toast from 'react-native-toast-message';
 
@@ -71,72 +71,159 @@ export function SidebarLogout() {
 
   return (
     <>
+      {/* SIDEBAR ACTION */}
       <Pressable
-  onPress={openModal}
-  className="flex-row items-center justify-center gap-3 rounded-xl px-4 py-3"
->
-  <LogOut
-    size={20}
-    color="#FF0000"
-    strokeWidth={2}
-  />
+        onPress={openModal}
+        accessibilityRole="button"
+        accessibilityLabel="Sair da conta"
+        className="flex-row items-center justify-center gap-3 rounded-xl px-4 py-3"
+        style={({ pressed }) => ({
+          opacity: pressed ? 0.72 : 1,
+          transform: [{ scale: pressed ? 0.98 : 1 }],
+        })}
+      >
+        <LogOut
+          size={20}
+          color="#FF0000"
+          strokeWidth={2}
+        />
 
-  <Text className="text-sm font-semibold text-[#FF0000]">
-    Sair da conta
-  </Text>
-</Pressable>
+        <Text className="text-sm font-semibold text-[#FF0000]">
+          Sair da conta
+        </Text>
+      </Pressable>
 
+      {/* LOGOUT MODAL */}
       <Modal
         visible={isVisible}
         transparent
         animationType="fade"
         onRequestClose={closeModal}
       >
-        <View className="flex-1 items-center justify-center bg-black/50 px-6">
-          <View className="w-full max-w-md rounded-2xl bg-white p-6">
-            <View className="items-center">
-              <View className="h-14 w-14 items-center justify-center rounded-full bg-red-100">
-                <LogOut
-                  size={26}
-                  color="#ff0000"
-                />
+        <View className="flex-1 items-center justify-center bg-[#17152B]/75 px-5">
+          <View
+            className="
+              w-full
+              max-w-md
+              overflow-hidden
+              rounded-[28px]
+              border
+              border-lavender-200
+              bg-white
+              shadow-2xl
+            "
+          >
+            {/* TOP CONTENT */}
+            <View className="items-center px-6 pb-6 pt-7 md:px-7 md:pt-8">
+              {/* ICON */}
+              <View className="relative">
+                <View className="absolute -inset-2 rounded-[24px] bg-red-500/10" />
+
+                <View className="h-16 w-16 items-center justify-center rounded-[22px] border border-red-200 bg-red-50">
+                  <View className="h-11 w-11 items-center justify-center rounded-full bg-red-100">
+                    <ShieldAlert
+                      size={23}
+                      color="#FF0000"
+                      strokeWidth={2}
+                    />
+                  </View>
+                </View>
               </View>
 
-              <Text className="mt-4 text-center text-xl font-bold text-night-900">
+              {/* TITLE */}
+              <Text className="mt-5 text-center text-2xl font-bold tracking-tight text-night-900">
                 Sair da conta?
               </Text>
 
-              <Text className="mt-2 text-center text-sm leading-5 text-night-500">
-                Tem certeza que deseja sair da sua conta?
+              {/* DESCRIPTION */}
+              <Text className="mt-2 max-w-sm text-center text-sm leading-5 text-night-500">
+                Tem certeza de que deseja encerrar sua sessão?
               </Text>
             </View>
 
-            <View className="mt-6 gap-3">
+            {/* DIVIDER */}
+            <View className="h-px w-full bg-lavender-100" />
+
+            {/* ACTIONS */}
+            <View className="gap-3 px-6 py-5 md:px-7 md:py-6">
+              {/* CANCEL */}
               <Pressable
                 onPress={closeModal}
                 disabled={isLoggingOut}
-                className="h-12 items-center justify-center rounded-xl bg-night-100"
+                accessibilityRole="button"
+                accessibilityLabel="Cancelar saída"
+                className="
+                  h-12
+                  items-center
+                  justify-center
+                  rounded-xl
+                  border
+                  border-lavender-200
+                  bg-white
+                "
+                style={({ pressed }) => ({
+                  opacity: isLoggingOut
+                    ? 0.5
+                    : pressed
+                      ? 0.72
+                      : 1,
+                  transform: [
+                    {
+                      scale:
+                        pressed && !isLoggingOut
+                          ? 0.985
+                          : 1,
+                    },
+                  ],
+                })}
               >
-                <Text className="font-semibold text-night-700">
+                <Text className="text-sm font-bold text-night-700">
                   Cancelar
                 </Text>
               </Pressable>
 
+              {/* CONFIRM LOGOUT */}
               <Pressable
                 onPress={() => void confirmLogout()}
                 disabled={isLoggingOut}
-                className="h-12 flex-row items-center justify-center gap-2 rounded-xl bg-danger"
+                accessibilityRole="button"
+                accessibilityLabel="Sair da conta"
+                className="
+                  h-12
+                  flex-row
+                  items-center
+                  justify-center
+                  gap-2
+                  rounded-xl
+                  bg-danger
+                "
+                style={({ pressed }) => ({
+                  opacity: isLoggingOut
+                    ? 0.75
+                    : pressed
+                      ? 0.88
+                      : 1,
+                  transform: [
+                    {
+                      scale:
+                        pressed && !isLoggingOut
+                          ? 0.985
+                          : 1,
+                    },
+                  ],
+                })}
               >
                 {isLoggingOut ? (
-                  <ActivityIndicator color="#ffffff" />
+                  <ActivityIndicator color="#FFFFFF" />
                 ) : (
                   <>
                     <LogOut
-                      size={18}
-                      color="#ffffff"
+                      size={17}
+                      color="#FFFFFF"
+                      strokeWidth={2.2}
                     />
 
-                    <Text className="font-semibold text-white">
+                    <Text className="text-sm font-bold text-white">
                       Sair da conta
                     </Text>
                   </>

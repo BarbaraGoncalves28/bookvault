@@ -8,7 +8,12 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LockKeyhole, Mail } from 'lucide-react-native';
+import {
+  ArrowRight,
+  LockKeyhole,
+  Mail,
+} from 'lucide-react-native';
+
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import { TextInputField } from '../../components/ui/text-input-field';
@@ -34,7 +39,7 @@ export function LoginScreen() {
       setError(
         err instanceof ApiError
           ? err.message
-          : 'Nao foi possivel entrar.',
+          : 'Não foi possível entrar.',
       );
     } finally {
       setIsSubmitting(false);
@@ -51,113 +56,154 @@ export function LoginScreen() {
         height: '100%',
       }}
     >
-      {/* MÁSCARA SOBRE A IMAGEM */}
+      {/* CAMADA DE PROFUNDIDADE SOBRE O BACKGROUND */}
       <View
-        className="absolute inset-0 bg-[#17152B]/50"
+        className="absolute inset-0 bg-[#17152B]/55"
         pointerEvents="none"
       />
 
       <SafeAreaView className="flex-1">
         <ScrollView
           className="flex-1"
-          contentContainerClassName="flex-grow items-center justify-center px-4 py-10"
+          contentContainerClassName="flex-grow items-center justify-center px-5 py-10"
           keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
           <View className="w-full max-w-md">
 
             {/* BRAND */}
-            <View className="items-center">
-              <View className="mb-5 items-center">
-  <Image
-    source={require('../../../assets/logo.png')}
-    style={{
-      width: 90,
-      height: 90,
-      borderRadius: 28,
-      borderWidth: 1.5,
-      borderColor: '#B100CD',
-    }}
-    resizeMode="cover"
-  />
-</View>
+            <View className="mb-7 items-center">
+              <View className="relative">
+                <View className="absolute -inset-2 rounded-[30px] bg-brand-500/15" />
 
+                <View className="overflow-hidden rounded-[28px] border border-brand-500/70 bg-[#17152B]/40 p-1.5">
+                  <Image
+                    source={require('../../../assets/logo.png')}
+                    style={{
+                      width: 86,
+                      height: 86,
+                      borderRadius: 22,
+                    }}
+                    resizeMode="cover"
+                  />
+                </View>
+              </View>
+
+              <Text className="mt-5 text-xl font-bold tracking-tight text-white">
+                BookVault
+              </Text>
+
+              <Text className="mt-1 text-center text-xs font-medium text-white/70">
+                Sua biblioteca. Seu espaço. Sua jornada.
+              </Text>
             </View>
 
             {/* LOGIN CARD */}
             <Card
-  className="
-    rounded-[28px]
-    border
-    border-white/65
-    bg-white/60
-    p-6
-    shadow-2xl
-  "
->
-
-              <View className="mb-8 items-center gap-1">
-                <Text className="text-3xl font-semibold text-brand-900">
+              className="
+                overflow-hidden
+                rounded-[30px]
+                border
+                border-white/60
+                bg-white/60
+                p-0
+                shadow-2xl
+              "
+            >
+              {/* CARD HEADER */}
+              <View className="items-center border-b border-white/45 px-6 pb-6 pt-7 md:px-7">
+                <Text className="text-center text-[30px] font-bold tracking-tight text-night-900">
                   Bem-vindo de volta
                 </Text>
 
-                <Text className="text-sm text-brand-600">
-                  Entre na sua conta para continuar.
+                <Text className="mt-2 max-w-sm text-sm text-center leading-5 text-white">
+                  Entre na sua conta
+                  e acompanhe sua biblioteca.
                 </Text>
               </View>
 
-              {/* INPUTS */}
-<View className="gap-5">
-  <TextInputField
-    label="E-mail:"
-    value={email}
-    onChangeText={setEmail}
-    placeholder="Digite seu e-mail"
-    placeholderTextColor='#4B4858'
-    autoCapitalize="none"
-    keyboardType="email-address"
-    icon={Mail}
-  />
+              {/* FORM */}
+              <View className="px-6 pb-6 pt-6 md:px-7 md:pb-7">
+                <View className="gap-5">
+                  <TextInputField
+                    label="E-mail:"
+                    value={email}
+                    onChangeText={setEmail}
+                    placeholder="Digite seu e-mail"
+                    placeholderTextColor="#4B4858"
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    icon={Mail}
+                  />
 
-  <TextInputField
-    label="Senha:"
-    value={password}
-    onChangeText={setPassword}
-    placeholderTextColor='#4B4858'
-    placeholder="Digite sua senha"
-    secureTextEntry
-    icon={LockKeyhole}
-  />
-</View>
+                  <TextInputField
+                    label="Senha:"
+                    value={password}
+                    onChangeText={setPassword}
+                    placeholderTextColor="#4B4858"
+                    placeholder="Digite sua senha"
+                    secureTextEntry
+                    icon={LockKeyhole}
+                  />
+                </View>
 
-              {error ? (
-  <View className="mt-3 px-1">
-    <Text className="text-sm font-medium" style={{ color: colors.danger }}>
-      {error}
-    </Text>
-  </View>
-) : null}
+                {/* ERROR */}
+                {error ? (
+                  <View className="mt-4 overflow-hidden rounded-2xl border border-red-200 bg-red-50/90 px-4 py-3">
+                    <View className="flex-row items-start gap-2.5">
+                      <View className="mt-0.5 h-2 w-2 rounded-full bg-red-500" />
 
-              <View className="mt-10 w-[50%] self-center">
-                <Button
-                  title="Entrar"
-                  onPress={handleSubmit}
-                  isLoading={isSubmitting}
-                />
-              </View>
+                      <Text
+                        className="flex-1 text-xs font-semibold leading-5"
+                        style={{ color: colors.danger }}
+                      >
+                        {error}
+                      </Text>
+                    </View>
+                  </View>
+                ) : null}
 
-              <View className="mt-5 flex-row items-center justify-center gap-1">
-                <Text className="text-sm text-night-700 font-semibold">
-                  Ainda não possui uma conta?
-                </Text>
+                {/* ACTION */}
+                <View className="mt-8">
+                  <Button
+                    title="Entrar"
+                    onPress={handleSubmit}
+                    isLoading={isSubmitting}
+                  />
+                </View>
 
-                <Link
-                  href="/cadastro"
-                  className="text-sm text-brand-900"
-                >
-                  Criar conta
-                </Link>
+                {/* REGISTER LINK */}
+                <View className="mt-6 flex-row items-center justify-center">
+                  <Text className="text-sm font-medium text-night-600">
+                    Ainda não possui uma conta?
+                  </Text>
+
+                  <Link
+                    href="/cadastro"
+                    className="ml-1.5"
+                  >
+                    <View className="flex-row items-center gap-1">
+                      <Text className="text-sm font-bold text-brand-500">
+                        Criar conta
+                      </Text>
+
+                      <ArrowRight
+                        size={14}
+                        color="#B100CD"
+                        strokeWidth={2.2}
+                      />
+                    </View>
+                  </Link>
+                </View>
               </View>
             </Card>
+
+            {/* FOOTER */}
+            <View className="mt-5 items-center">
+              <Text className="text-[11px] font-medium text-white/50">
+                Organize. Descubra. Leia.
+              </Text>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>

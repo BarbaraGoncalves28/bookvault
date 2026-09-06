@@ -22,8 +22,8 @@ export function FeedbackState({ title, message, actionLabel, onAction }: Feedbac
   return (
     <View className="flex-1 items-center justify-center gap-4 p-6">
       <View className="items-center gap-2">
-        <Text className="text-center text-xl font-bold text-ink-950">{title}</Text>
-        {message ? <Text className="text-center text-base leading-6 text-ink-500">{message}</Text> : null}
+        <Text className="text-center text-xl font-bold text-night-900">{title}</Text>
+        {message ? <Text className="text-center text-xs leading-6 text-night-500">{message}</Text> : null}
       </View>
       {actionLabel && onAction ? <Button title={actionLabel} onPress={onAction} /> : null}
     </View>

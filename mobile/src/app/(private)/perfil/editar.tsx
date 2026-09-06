@@ -12,7 +12,10 @@ import {
   Camera,
   Eye,
   EyeOff,
+  ShieldCheck,
   Trash2,
+  UserRound,
+  Contact,
 } from 'lucide-react-native';
 import Toast from 'react-native-toast-message';
 
@@ -20,10 +23,11 @@ import { Screen } from '../../../components/layout/screen';
 import { Card } from '../../../components/ui/card';
 import { BackButton } from '../../../components/layout/back-button';
 import { Breadcrumb } from '../../../components/layout/breadcrumb';
+import { Button } from '../../../components/ui/button';
 
 import { useAuth } from '../../../hooks/use-auth';
 import { useProfile } from '../../../hooks/use-profile';
-import { Button } from '../../../components/ui/button';
+
 import { usersService } from '../../../services/users-service';
 import { uploadImageToCloudinary } from '../../../services/cloudinary-service';
 
@@ -357,8 +361,10 @@ export default function EditProfileScreen() {
       const updatedUser =
         await usersService.me();
 
-        console.log('USUÁRIO ATUALIZADO:', updatedUser);
-
+      console.log(
+        'USUÁRIO ATUALIZADO:',
+        updatedUser,
+      );
 
       /*
        * =========================
@@ -423,127 +429,244 @@ export default function EditProfileScreen() {
 
   return (
     <Screen scroll>
-      <View className="gap-5 pb-8">
+      <View className="gap-6 pb-10">
 
         {/* =========================
             BREADCRUMB + VOLTAR
         ========================== */}
         <View className="mx-3">
-          <Breadcrumb current="Editar Perfil" />
+          <Breadcrumb current="Editar perfil" />
 
-          <BackButton />
+          <View className="mt-1">
+            <BackButton />
+          </View>
         </View>
 
         {/* =========================
-            TÍTULO
+            TÍTULO DA PÁGINA
         ========================== */}
         <View className="mx-3">
-          <Text className="text-2xl font-bold text-night-900">
-            Editar perfil
-          </Text>
+          <View className="flex-row items-start gap-4">
+            <View className="h-12 w-12 items-center justify-center rounded-2xl bg-brand-50">
+              <Contact
+                size={23}
+                color="#B100CD"
+                strokeWidth={2}
+              />
+            </View>
 
-          <Text className="mt-1 text-sm text-night-500">
-            Gerencie suas informações pessoais e
-            configurações de segurança.
-          </Text>
+            <View className="flex-1">
+              <Text className="text-2xl font-bold text-night-900 md:text-3xl">
+                Editar perfil
+              </Text>
+
+              <Text className="mt-1 text-sm text-night-500 md:text-base">
+                Gerencie suas informações pessoais e
+                configurações de segurança.
+              </Text>
+            </View>
+          </View>
         </View>
 
         {/* =========================
             CARD PRINCIPAL
         ========================== */}
-        <Card className="mx-3 gap-7">
+        <Card
+          className="
+            mx-3
+            gap-0
+            overflow-visible
+            rounded-[28px]
+            border
+            border-lavender-200
+            bg-white
+            p-0
+            shadow-soft
+          "
+        >
 
           {/* =========================
               FOTO DE PERFIL
           ========================== */}
-          <View className="items-center">
-
-            <Text className="mb-4 self-start text-base font-bold text-night-900">
-              Foto de perfil
-            </Text>
-
-            <View className="relative">
-
-              {displayAvatar ? (
-                <Image
-                  source={{
-                    uri: displayAvatar,
-                  }}
-                  className="h-32 w-32 rounded-full border-2 border-brand-700"
-                  resizeMode="cover"
+          <View className="p-5 md:p-6">
+            <View className="flex-row items-center gap-3">
+              <View className="h-10 w-10 items-center justify-center rounded-xl bg-brand-50">
+                <Camera
+                  size={19}
+                  color="#B100CD"
+                  strokeWidth={2}
                 />
-              ) : (
-                <View className="h-32 w-32 items-center justify-center rounded-full border-2 border-brand-700 bg-brand-700">
-                  <Text className="text-4xl font-bold text-white">
-                    {displayName
-                      .trim()
-                      .charAt(0)
-                      .toUpperCase() || 'U'}
-                  </Text>
-                </View>
-              )}
+              </View>
 
-              {/* AÇÕES DA FOTO */}
-              <View className="absolute -bottom-1 left-1/2 z-50 -translate-x-1/2 flex-row items-center gap-2">
+              <View className="flex-1">
+                <Text className="text-xl font-bold text-night-900">
+                  Foto de perfil
+                </Text>
 
-                {/* ALTERAR FOTO */}
-                <Pressable
-                  onPress={() => void handlePickImage()}
-                  disabled={saving}
-                  className="h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-brand-500"
-                  hitSlop={6}
-                >
-                  <Camera
-                    size={13}
-                    color="#FFFFFF"
-                    strokeWidth={2.3}
-                  />
-                </Pressable>
+                <Text className="mt-0.5 text-sm text-night-500">
+                  Escolha uma imagem para personalizar seu perfil.
+                </Text>
+              </View>
+            </View>
 
-                {/* REMOVER FOTO */}
+            <View className="mt-6 items-center">
+              <View className="relative">
+
+                {/* AVATAR */}
                 {displayAvatar ? (
-                  <Pressable
-                    onPress={handleRemoveAvatar}
-                    disabled={saving}
-                    className="h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-[#FF0000]"
-                    hitSlop={6}
+                  <Image
+                    source={{
+                      uri: displayAvatar,
+                    }}
+                    className="
+                      h-32
+                      w-32
+                      rounded-full
+                      border-4
+                      border-brand-500
+                    "
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <View
+                    className="
+                      h-32
+                      w-32
+                      items-center
+                      justify-center
+                      rounded-full
+                      border-4
+                      border-brand-500
+                      bg-brand-500
+                    "
                   >
-                    <Trash2
-                      size={13}
+                    <Text className="text-4xl font-bold text-white">
+                      {displayName
+                        .trim()
+                        .charAt(0)
+                        .toUpperCase() || 'U'}
+                    </Text>
+                  </View>
+                )}
+
+                {/* AÇÕES DA FOTO */}
+                <View
+                  className="
+                    absolute
+                    -bottom-1
+                    left-1/2
+                    z-50
+                    -translate-x-1/2
+                    flex-row
+                    items-center
+                    gap-2
+                  "
+                >
+                  {/* ALTERAR FOTO */}
+                  <Pressable
+                    onPress={() => void handlePickImage()}
+                    disabled={saving}
+                    accessibilityRole="button"
+                    accessibilityLabel="Alterar foto de perfil"
+                    hitSlop={6}
+                    style={({ pressed }) => ({
+                      opacity: pressed ? 0.75 : 1,
+                      transform: [
+                        {
+                          scale: pressed ? 0.95 : 1,
+                        },
+                      ],
+                    })}
+                    className="
+                      h-8
+                      w-8
+                      items-center
+                      justify-center
+                      rounded-full
+                      border-2
+                      border-white
+                      bg-brand-500
+                    "
+                  >
+                    <Camera
+                      size={14}
                       color="#FFFFFF"
                       strokeWidth={2.3}
                     />
                   </Pressable>
-                ) : null}
 
+                  {/* REMOVER FOTO */}
+                  {displayAvatar ? (
+                    <Pressable
+                      onPress={handleRemoveAvatar}
+                      disabled={saving}
+                      accessibilityRole="button"
+                      accessibilityLabel="Remover foto de perfil"
+                      hitSlop={6}
+                      style={({ pressed }) => ({
+                        opacity: pressed ? 0.75 : 1,
+                        transform: [
+                          {
+                            scale: pressed ? 0.95 : 1,
+                          },
+                        ],
+                      })}
+                      className="
+                        h-8
+                        w-8
+                        items-center
+                        justify-center
+                        rounded-full
+                        border-2
+                        border-white
+                        bg-[#FF0000]
+                      "
+                    >
+                      <Trash2
+                        size={14}
+                        color="#FFFFFF"
+                        strokeWidth={2.3}
+                      />
+                    </Pressable>
+                  ) : null}
+                </View>
               </View>
             </View>
           </View>
 
           {/* DIVISÓRIA */}
-          <View className="h-px bg-[#E5E1EE]" />
+          <View className="h-px w-full bg-lavender-200" />
 
           {/* =========================
               INFORMAÇÕES PESSOAIS
           ========================== */}
-          <View className="gap-5">
+          <View className="p-5 md:p-6">
+            <View className="flex-row items-center gap-3">
+              <View className="h-10 w-10 items-center justify-center rounded-xl bg-lavender-50">
+                <UserRound
+                  size={19}
+                  color="#B100CD"
+                  strokeWidth={2}
+                />
+              </View>
 
-            <View>
-              <Text className="text-base font-bold text-night-900">
-                Informações pessoais
-              </Text>
+              <View className="flex-1">
+                <Text className="text-xl font-bold text-night-900">
+                  Informações pessoais
+                </Text>
 
-              <Text className="mt-1 text-xs text-night-500">
-                Atualize os dados básicos da sua conta.
-              </Text>
+                <Text className="mt-0.5 text-sm text-night-500">
+                  Atualize os dados básicos da sua conta.
+                </Text>
+              </View>
             </View>
 
-            <View className="flex-row flex-wrap gap-4">
+            <View className="mt-6 flex-row flex-wrap gap-4">
 
               {/* NOME */}
               <View className="min-w-[280px] flex-1 gap-2">
                 <Text className="text-sm font-bold text-night-900">
-                  Nome:
+                  Nome
                 </Text>
 
                 <TextInput
@@ -551,7 +674,16 @@ export default function EditProfileScreen() {
                   onChangeText={setName}
                   placeholder="Seu nome"
                   placeholderTextColor="#9995A6"
-                  className="h-12 rounded-xl border border-[#E5E1EE] bg-[#FAF9FC] px-4 text-base text-night-900"
+                  className="
+                    h-12
+                    rounded-xl
+                    border
+                    border-lavender-200
+                    bg-lavender-50
+                    px-4
+                    text-base
+                    text-night-900
+                  "
                   maxLength={120}
                   autoCapitalize="words"
                   editable={!saving}
@@ -561,10 +693,20 @@ export default function EditProfileScreen() {
               {/* E-MAIL */}
               <View className="min-w-[280px] flex-1 gap-2">
                 <Text className="text-sm font-bold text-night-900">
-                  E-mail:
+                  E-mail
                 </Text>
 
-                <View className="h-12 justify-center rounded-xl border border-[#E5E1EE] bg-[#F2F0FA] px-4">
+                <View
+                  className="
+                    h-12
+                    justify-center
+                    rounded-xl
+                    border
+                    border-lavender-200
+                    bg-lavender-50
+                    px-4
+                  "
+                >
                   <Text
                     numberOfLines={1}
                     className="text-base text-night-500"
@@ -579,36 +721,42 @@ export default function EditProfileScreen() {
                   O e-mail não pode ser alterado.
                 </Text>
               </View>
-
             </View>
           </View>
 
           {/* DIVISÓRIA */}
-          <View className="h-px bg-[#E5E1EE]" />
+          <View className="h-px w-full bg-lavender-200" />
 
           {/* =========================
               SEGURANÇA
           ========================== */}
-          <View className="gap-5">
+          <View className="p-5 md:p-6">
+            <View className="flex-row items-center gap-3">
+              <View className="h-10 w-10 items-center justify-center rounded-xl bg-lavender-50">
+                <ShieldCheck
+                  size={19}
+                  color="#B100CD"
+                  strokeWidth={2}
+                />
+              </View>
 
-            <View>
-              <Text className="text-base font-bold text-night-900">
-                Segurança
-              </Text>
+              <View className="flex-1">
+                <Text className="text-xl font-bold text-night-900">
+                  Segurança
+                </Text>
 
-              <Text className="mt-1 text-xs text-night-500">
-                Altere sua senha informando a senha atual
-                e uma nova senha.
-              </Text>
+                <Text className="mt-0.5 text-sm text-night-500">
+                  Atualize sua senha para manter sua conta protegida.
+                </Text>
+              </View>
             </View>
 
-            <View className="flex-row flex-wrap gap-4">
+            <View className="mt-6 flex-row flex-wrap gap-4">
 
               {/* SENHA ATUAL */}
               <View className="min-w-[280px] flex-1 gap-2">
-
                 <Text className="text-sm font-bold text-night-900">
-                  Senha atual:
+                  Senha atual
                 </Text>
 
                 <View className="relative">
@@ -620,7 +768,17 @@ export default function EditProfileScreen() {
                     secureTextEntry={
                       !showCurrentPassword
                     }
-                    className="h-12 rounded-xl border border-[#E5E1EE] bg-[#FAF9FC] px-4 pr-12 text-base text-night-900"
+                    className="
+                      h-12
+                      rounded-xl
+                      border
+                      border-lavender-200
+                      bg-lavender-50
+                      px-4
+                      pr-12
+                      text-base
+                      text-night-900
+                    "
                     editable={!saving}
                   />
 
@@ -631,29 +789,43 @@ export default function EditProfileScreen() {
                       )
                     }
                     disabled={saving}
-                    className="absolute right-0 top-0 h-12 w-12 items-center justify-center"
-                  > 
+                    accessibilityRole="button"
+                    accessibilityLabel={
+                      showCurrentPassword
+                        ? 'Ocultar senha atual'
+                        : 'Mostrar senha atual'
+                    }
+                    className="
+                      absolute
+                      right-0
+                      top-0
+                      h-12
+                      w-12
+                      items-center
+                      justify-center
+                    "
+                  >
                     {showCurrentPassword ? (
                       <EyeOff
                         size={19}
                         color="#777486"
+                        strokeWidth={2}
                       />
                     ) : (
                       <Eye
                         size={19}
                         color="#777486"
+                        strokeWidth={2}
                       />
                     )}
                   </Pressable>
                 </View>
-
               </View>
 
               {/* NOVA SENHA */}
               <View className="min-w-[280px] flex-1 gap-2">
-
                 <Text className="text-sm font-bold text-night-900">
-                  Nova senha:
+                  Nova senha
                 </Text>
 
                 <View className="relative">
@@ -665,7 +837,17 @@ export default function EditProfileScreen() {
                     secureTextEntry={
                       !showNewPassword
                     }
-                    className="h-12 rounded-xl border border-[#E5E1EE] bg-[#FAF9FC] px-4 pr-12 text-base text-night-900"
+                    className="
+                      h-12
+                      rounded-xl
+                      border
+                      border-lavender-200
+                      bg-lavender-50
+                      px-4
+                      pr-12
+                      text-base
+                      text-night-900
+                    "
                     editable={!saving}
                   />
 
@@ -676,17 +858,33 @@ export default function EditProfileScreen() {
                       )
                     }
                     disabled={saving}
-                    className="absolute right-0 top-0 h-12 w-12 items-center justify-center"
+                    accessibilityRole="button"
+                    accessibilityLabel={
+                      showNewPassword
+                        ? 'Ocultar nova senha'
+                        : 'Mostrar nova senha'
+                    }
+                    className="
+                      absolute
+                      right-0
+                      top-0
+                      h-12
+                      w-12
+                      items-center
+                      justify-center
+                    "
                   >
                     {showNewPassword ? (
                       <EyeOff
                         size={19}
                         color="#777486"
+                        strokeWidth={2}
                       />
                     ) : (
                       <Eye
                         size={19}
                         color="#777486"
+                        strokeWidth={2}
                       />
                     )}
                   </Pressable>
@@ -695,14 +893,12 @@ export default function EditProfileScreen() {
                 <Text className="text-xs text-night-500">
                   Mínimo de 8 caracteres.
                 </Text>
-
               </View>
 
               {/* CONFIRMAR NOVA SENHA */}
               <View className="min-w-[280px] flex-1 gap-2">
-
                 <Text className="text-sm font-bold text-night-900">
-                  Confirmar nova senha:
+                  Confirmar nova senha
                 </Text>
 
                 <View className="relative">
@@ -714,7 +910,17 @@ export default function EditProfileScreen() {
                     secureTextEntry={
                       !showConfirmPassword
                     }
-                    className="h-12 rounded-xl border border-[#E5E1EE] bg-[#FAF9FC] px-4 pr-12 text-base text-night-900"
+                    className="
+                      h-12
+                      rounded-xl
+                      border
+                      border-lavender-200
+                      bg-lavender-50
+                      px-4
+                      pr-12
+                      text-base
+                      text-night-900
+                    "
                     editable={!saving}
                   />
 
@@ -725,56 +931,80 @@ export default function EditProfileScreen() {
                       )
                     }
                     disabled={saving}
-                    className="absolute right-0 top-0 h-12 w-12 items-center justify-center"
+                    accessibilityRole="button"
+                    accessibilityLabel={
+                      showConfirmPassword
+                        ? 'Ocultar confirmação da senha'
+                        : 'Mostrar confirmação da senha'
+                    }
+                    className="
+                      absolute
+                      right-0
+                      top-0
+                      h-12
+                      w-12
+                      items-center
+                      justify-center
+                    "
                   >
                     {showConfirmPassword ? (
                       <EyeOff
                         size={19}
                         color="#777486"
+                        strokeWidth={2}
                       />
                     ) : (
                       <Eye
                         size={19}
                         color="#777486"
+                        strokeWidth={2}
                       />
                     )}
                   </Pressable>
                 </View>
-
               </View>
-
             </View>
           </View>
 
           {/* DIVISÓRIA */}
-          <View className="h-px bg-[#E5E1EE]" />
+          <View className="h-px w-full bg-lavender-200" />
 
-{/* =========================
-    BOTÃO
-========================== */}
-{/* AÇÕES */}
-<View className="flex-row items-center justify-end gap-3">
-  <Button
-    title={
-      saving
-        ? 'Salvando alterações...'
-        : 'Salvar alterações'
-    }
-    onPress={() => void handleSave()}
-    disabled={saving || profileLoading}
-    isLoading={saving}
-    className="w-auto px-6"
-  />
+          {/* =========================
+              AÇÕES
+          ========================== */}
+          <View
+            className="
+              flex-col
+              gap-3
+              p-5
+              md:flex-row
+              md:items-center
+              md:justify-end
+              md:p-6
+            "
+          >
+            <Button
+              title="Cancelar"
+              variant="danger"
+              onPress={() => router.back()}
+              disabled={saving}
+              className="w-full px-6 md:w-auto"
+            />
 
-  <Button
-    title="Cancelar"
-    variant="danger"
-    onPress={() => router.back()}
-    disabled={saving}
-    className="w-auto px-6"
-  />
-</View>
-
+            <Button
+              title={
+                saving
+                  ? 'Salvando alterações...'
+                  : 'Salvar alterações'
+              }
+              onPress={() => void handleSave()}
+              disabled={
+                saving || profileLoading
+              }
+              isLoading={saving}
+              className="w-full px-6 md:w-auto"
+            />
+          </View>
         </Card>
       </View>
     </Screen>

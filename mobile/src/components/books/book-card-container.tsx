@@ -15,7 +15,7 @@ export function BookCardContainer({
   return (
     <View
       className={cn(
-        'rounded-card border border-brand-300 bg-white p-4 shadow-soft',
+        'rounded-card border border-brand-300 p-4 shadow-soft',
         className,
       )}
     >

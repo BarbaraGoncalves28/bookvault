@@ -1,6 +1,8 @@
 import {
   BookOpen,
+  ChevronRight,
   PieChart,
+  Trophy,
 } from 'lucide-react-native';
 import {
   ScrollView,
@@ -23,94 +25,161 @@ export function ProfileGenresCard({
     .slice()
     .sort((genreA, genreB) => {
       return genreB.count - genreA.count;
-    })
-    .slice(0, 10);
-
-  const maxGenreCount =
-    topGenres.length > 0
-      ? topGenres[0].count
-      : 0;
+    });
 
   return (
-    <View className="h-auto rounded-3xl border border-brand-500 bg-white p-6 md:h-[335px]">
+    <View
+      className="
+        h-auto
+        overflow-hidden
+        rounded-[28px]
+        border
+        border-lavender-200
+        bg-white
+        p-5
+        shadow-soft
+        md:h-[405px]
+        md:p-6
+      "
+    >
       {/* CABEÇALHO */}
       <View className="flex-row items-start justify-between">
-        <View className="flex-1 pr-4">
-          <Text className="text-xl font-bold text-night-900">
-            Gêneros favoritos
-          </Text>
+        <View className="min-w-0 flex-1 pr-4">
+          <View className="flex-row items-center gap-3">
+            <View className="h-10 w-10 items-center justify-center rounded-xl bg-brand-50">
+              <PieChart
+                size={19}
+                color="#B100CD"
+                strokeWidth={2}
+              />
+            </View>
 
-          <Text className="mt-1 text-sm text-night-500">
-            Os gêneros mais presentes na sua biblioteca.
-          </Text>
+            <View className="min-w-0 flex-1">
+              <Text className="text-xl font-bold text-night-900">
+                Gêneros favoritos
+              </Text>
+
+              <Text
+                numberOfLines={1}
+                className="mt-0.5 text-sm text-night-500"
+              >
+                Os gêneros mais presentes na sua biblioteca.
+              </Text>
+            </View>
+          </View>
         </View>
 
-        <View className="h-11 w-11 items-center justify-center rounded-2xl bg-night-100">
-          <PieChart
-            size={21}
-            color="#CA5CDD"
-            strokeWidth={2.2}
-          />
-        </View>
+        {topGenres.length > 0 ? (
+          <View className="hidden rounded-full bg-lavender-50 px-3 py-1.5 md:flex">
+            <Text className="text-xs font-bold text-brand-500">
+              Top {topGenres.length}
+            </Text>
+          </View>
+        ) : null}
       </View>
 
+      {/* LISTA */}
       {topGenres.length > 0 ? (
         <ScrollView
           className="mt-6 flex-1"
           showsVerticalScrollIndicator={false}
           nestedScrollEnabled
         >
-          <View className="gap-5 pr-2">
+          <View className="gap-4 pr-1">
             {topGenres.map((item, index) => {
-              const percentage =
-                maxGenreCount > 0
-                  ? Math.round(
-                      (item.count / maxGenreCount) * 100,
-                    )
-                  : 0;
+              const percentage = Math.min(
+  Math.round((item.count / 20) * 100),
+  100,
+);
+
+              const isFirst = index === 0;
 
               return (
                 <View key={item.genre}>
+                  {/* INFORMAÇÕES DO GÊNERO */}
                   <View className="flex-row items-center gap-3">
-                    <Text className="w-7 text-xs font-bold text-night-400">
-                      {String(index + 1).padStart(2, '0')}
-                    </Text>
+                    {/* POSIÇÃO */}
+                    <View
+                      className={`
+                        h-8
+                        w-8
+                        items-center
+                        justify-center
+                        rounded-lg
+                        ${
+                          isFirst
+                            ? 'bg-brand-50'
+                            : 'bg-lavender-50'
+                        }
+                      `}
+                    >
+                      {isFirst ? (
+                        <Trophy
+                          size={15}
+                          color="#B100CD"
+                          strokeWidth={2}
+                        />
+                      ) : (
+                        <Text className="text-[11px] font-bold text-night-400">
+                          {String(index + 1).padStart(2, '0')}
+                        </Text>
+                      )}
+                    </View>
 
-                    <View className="h-9 w-9 items-center justify-center rounded-xl bg-night-100">
+                    {/* ÍCONE */}
+                    <View className="h-9 w-9 items-center justify-center rounded-xl border border-lavender-200 bg-white">
                       <BookOpen
                         size={16}
-                        color="#CA5CDD"
+                        color="#7057D9"
                         strokeWidth={2}
                       />
                     </View>
 
-                    <Text
-                      numberOfLines={1}
-                      className="flex-1 text-sm font-semibold text-night-700"
-                    >
-                      {item.genre}
-                    </Text>
+                    {/* NOME */}
+                    <View className="min-w-0 flex-1">
+                      <Text
+                        numberOfLines={1}
+                        className={`
+                          text-sm
+                          ${
+                            isFirst
+                              ? 'font-bold text-night-900'
+                              : 'font-semibold text-night-700'
+                          }
+                        `}
+                      >
+                        {item.genre}
+                      </Text>
 
-                    <View className="items-end">
-                      <Text className="text-sm font-bold text-brand-700">
+                      <Text className="mt-0.5 text-[11px] text-night-400">
+                        {item.count === 1
+                          ? '1 livro'
+                          : `${item.count} livros`}
+                      </Text>
+                    </View>
+
+                    {/* QUANTIDADE */}
+                    <View className="flex-row items-center gap-1">
+                      <Text className="text-sm font-bold text-brand-500">
                         {item.count}
                       </Text>
 
-                      <Text className="text-[11px] text-night-500">
-                        {item.count === 1
-                          ? 'livro'
-                          : 'livros'}
-                      </Text>
+                      <ChevronRight
+                        size={13}
+                        color="#B9B5C4"
+                        strokeWidth={1.8}
+                      />
                     </View>
                   </View>
 
-                  <View className="ml-10 mt-2 h-2 overflow-hidden rounded-full bg-lavender-100">
+                  {/* BARRA */}
+                  <View className="ml-[92px] mt-2 h-1.5 overflow-hidden rounded-full bg-lavender-100">
                     <View
-                      className="h-full rounded-full bg-brand-700"
-                      style={{
-                        width: `${percentage}%`,
-                      }}
-                    />
+  className="h-full rounded-full bg-brand-500"
+  style={{
+    width: `${percentage}%`,
+  }}
+/>
                   </View>
                 </View>
               );
@@ -118,34 +187,41 @@ export function ProfileGenresCard({
           </View>
         </ScrollView>
       ) : (
-        <View className="flex-1 items-center justify-center">
-          <BookOpen
-            size={32}
-            color="#777486"
-            strokeWidth={1.7}
-          />
+        <View className="flex-1 items-center justify-center px-6">
+          <View className="h-14 w-14 items-center justify-center rounded-2xl bg-lavender-50">
+            <BookOpen
+              size={25}
+              color="#777486"
+              strokeWidth={1.7}
+            />
+          </View>
 
-          <Text className="mt-3 text-sm font-semibold text-night-900">
+          <Text className="mt-4 text-sm font-bold text-night-900">
             Nenhum gênero encontrado
           </Text>
 
-          <Text className="mt-1 text-center text-xs text-night-500">
-            Cadastre livros para descobrir seus gêneros favoritos.
+          <Text className="mt-1 max-w-xs text-center text-xs leading-5 text-night-500">
+            Cadastre livros para descobrir quais gêneros mais
+            combinam com a sua biblioteca.
           </Text>
         </View>
       )}
 
       {/* RODAPÉ */}
-      {totalBooks > 0 && (
-        <View className="mt-4 border-t border-[#E5E1EE] pt-4">
+      {totalBooks > 0 ? (
+        <View className="mt-4 border-t border-lavender-200 pt-4">
           <Text className="text-xs text-night-500">
-            Baseado nos {totalBooks}{' '}
-            {totalBooks === 1
-              ? 'livro'
-              : 'livros'} da sua biblioteca.
+            Baseado nos{' '}
+            <Text className="font-bold text-night-600">
+              {totalBooks}{' '}
+              {totalBooks === 1
+                ? 'livro'
+                : 'livros'}
+            </Text>{' '}
+            da sua biblioteca.
           </Text>
         </View>
-      )}
+      ) : null}
     </View>
   );
 }

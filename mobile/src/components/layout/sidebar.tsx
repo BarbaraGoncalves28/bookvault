@@ -77,9 +77,7 @@ export function Sidebar({
   onClose,
 }: SidebarProps) {
   const pathname = usePathname();
-  
   const { user } = useAuth();
-
   const { width } = useWindowDimensions();
 
   const isMobile = width < 768;
@@ -147,7 +145,7 @@ export function Sidebar({
       {isMobile && isOpen ? (
         <Pressable
           onPress={onClose}
-          className="absolute inset-0 z-40 bg-black/50"
+          className="absolute inset-0 z-40 bg-black/60"
         />
       ) : null}
 
@@ -156,9 +154,11 @@ export function Sidebar({
         className={`
           relative
           h-full
-          ${isMobile
-            ? 'absolute left-0 top-0 z-50'
-            : 'relative z-0'}
+          ${
+            isMobile
+              ? 'absolute left-0 top-0 z-50'
+              : 'relative z-0'
+          }
         `}
         style={{
           width: containerWidth,
@@ -171,24 +171,24 @@ export function Sidebar({
             h-full
             overflow-hidden
             border-r
-            border-slate-200
             bg-[#17152B]
           "
           style={{
             width: sidebarWidth,
+            borderRightColor: '#3A364D',
           }}
         >
           {/* CONTEÚDO */}
           <View className="h-full">
 
             {/* ÁREA SUPERIOR */}
-            <View className="flex-1 px-4 py-6">
+            <View className="flex-1 px-4 pt-6">
 
               {/* CABEÇALHO */}
               <View
                 className={`
                   relative
-                  mb-10
+                  mb-8
                   items-center
                   justify-center
                   ${
@@ -199,17 +199,39 @@ export function Sidebar({
                 `}
               >
                 {/* LOGO */}
-                <Image
-                  source={require('../../../assets/logo.png')}
+                <View
+                  className="
+                    items-center
+                    justify-center
+                    rounded-2xl
+                    bg-[#201E2E]
+                  "
                   style={{
-                    width: sidebarExpanded ? 70 : 36,
-                    height: sidebarExpanded ? 70 : 36,
-                    borderRadius: sidebarExpanded ? 22 : 11,
-                    borderWidth: 1.5,
-                    borderColor: '#B100CD',
+                    width: sidebarExpanded ? 70 : 40,
+                    height: sidebarExpanded ? 70 : 40,
+                    borderRadius: sidebarExpanded ? 20 : 12,
+                    borderWidth: 1,
+                    borderColor: '#3A364D',
+                    shadowColor: '#000000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 4,
+                    },
+                    shadowOpacity: 0.22,
+                    shadowRadius: 10,
+                    elevation: 5,
                   }}
-                  resizeMode="cover"
-                />
+                >
+                  <Image
+                    source={require('../../../assets/logo.png')}
+                    style={{
+                      width: sidebarExpanded ? 64 : 34,
+                      height: sidebarExpanded ? 64 : 34,
+                      borderRadius: sidebarExpanded ? 18 : 10,
+                    }}
+                    resizeMode="cover"
+                  />
+                </View>
 
                 {/* BOTÃO FECHAR — MOBILE */}
                 {isMobile ? (
@@ -226,13 +248,15 @@ export function Sidebar({
                       justify-center
                       rounded-xl
                       border
-                      border-white/10
-                      bg-[#25213D]
+                      bg-[#201E2E]
                     "
+                    style={{
+                      borderColor: '#3A364D',
+                    }}
                   >
                     <X
-                      size={19}
-                      color="#D9D5E8"
+                      size={18}
+                      color="#E5E1EE"
                       strokeWidth={2.2}
                     />
                   </Pressable>
@@ -240,7 +264,7 @@ export function Sidebar({
               </View>
 
               {/* NAVEGAÇÃO */}
-              <View className="gap-2">
+              <View className="gap-1.5">
                 {items.map((item) => {
                   const active = isActive(item.route);
                   const Icon = item.icon;
@@ -264,10 +288,18 @@ export function Sidebar({
                         }
                         ${
                           active
-                            ? 'bg-[#CA5CDD]'
+                            ? 'bg-[#2A273A]'
                             : 'bg-transparent'
                         }
                       `}
+                      style={
+                        active
+                          ? {
+                              borderWidth: 1,
+                              borderColor: 'rgba(177, 0, 205, 0.28)',
+                            }
+                          : undefined
+                      }
                     >
                       {/* INDICADOR DA PÁGINA ATIVA */}
                       {active ? (
@@ -275,11 +307,21 @@ export function Sidebar({
                           className="
                             absolute
                             left-0
-                            h-6
+                            h-7
                             w-1
                             rounded-r-full
-                            bg-[#F2F0FA]
+                            bg-[#CA5CDD]
                           "
+                          style={{
+                            shadowColor: '#CA5CDD',
+                            shadowOffset: {
+                              width: 0,
+                              height: 0,
+                            },
+                            shadowOpacity: 0.35,
+                            shadowRadius: 5,
+                            elevation: 3,
+                          }}
                         />
                       ) : null}
 
@@ -288,11 +330,11 @@ export function Sidebar({
                         size={20}
                         color={
                           active
-                            ? '#FFFFFF'
-                            : '#A9A5BD'
+                            ? '#E8BCF0'
+                            : '#777486'
                         }
                         strokeWidth={
-                          active ? 2.4 : 2
+                          active ? 2.3 : 2
                         }
                       />
 
@@ -303,11 +345,10 @@ export function Sidebar({
                           className={`
                             flex-1
                             text-sm
-                            font-semibold
                             ${
                               active
-                                ? 'text-white'
-                                : 'text-[#A9A5BD]'
+                                ? 'font-semibold text-[#FAF9FC]'
+                                : 'font-medium text-[#777486]'
                             }
                           `}
                         >
@@ -324,11 +365,14 @@ export function Sidebar({
             {sidebarExpanded ? (
               <View
                 className="
-                  border-t
-                  border-white/10
                   px-4
-                  py-4
+                  pb-4
+                  pt-4
                 "
+                style={{
+                  borderTopWidth: 1,
+                  borderTopColor: '#3A364D',
+                }}
               >
                 {/* USUÁRIO */}
                 <Pressable
@@ -336,15 +380,19 @@ export function Sidebar({
                     handleNavigation('/perfil')
                   }
                   className="
-                    mb-4
+                    mb-3
                     flex-row
                     items-center
                     gap-3
                     rounded-xl
-                    bg-[#1E1B33]
+                    bg-[#201E2E]
                     px-3
                     py-3
                   "
+                  style={{
+                    borderWidth: 1,
+                    borderColor: '#3A364D',
+                  }}
                 >
                   <ProfileAvatar
                     name={user?.name}
@@ -352,25 +400,24 @@ export function Sidebar({
                     size="md"
                   />
 
-                  <View
-                    className="
-                      flex-1
-                      flex-row
-                      items-center
-                      gap-1.5
-                    "
-                  >
-                    <Text className="text-xs text-[#A9A5BD]">
+                  <View className="flex-1">
+                    <Text
+                      className="
+                        mb-0.5
+                        text-[11px]
+                        font-medium
+                        text-[#777486]
+                      "
+                    >
                       Olá,
                     </Text>
 
                     <Text
                       numberOfLines={1}
                       className="
-                        flex-1
                         text-sm
                         font-semibold
-                        text-white
+                        text-[#FAF9FC]
                       "
                     >
                       {user?.name || 'Usuário'}
@@ -386,8 +433,9 @@ export function Sidebar({
                   className="
                     mt-3
                     text-center
-                    text-[11px]
-                    text-[#777486]
+                    text-[10px]
+                    font-medium
+                    text-[#4B4858]
                   "
                 >
                   © Bárbara Gonçalves 2026
@@ -407,37 +455,37 @@ export function Sidebar({
               right-0
               top-6
               z-50
-              h-10
-              w-10
+              h-9
+              w-9
               items-center
               justify-center
               rounded-full
               border
-              border-white/10
-              bg-[#25213D]
+              bg-[#201E2E]
             "
             style={{
+              borderColor: '#3A364D',
               shadowColor: '#000000',
               shadowOffset: {
                 width: 0,
-                height: 2,
+                height: 3,
               },
-              shadowOpacity: 0.25,
-              shadowRadius: 6,
+              shadowOpacity: 0.28,
+              shadowRadius: 8,
               elevation: 8,
             }}
           >
             {collapsed ? (
               <ChevronRight
-                size={18}
-                color="#D9D5E8"
-                strokeWidth={2.4}
+                size={17}
+                color="#E5E1EE"
+                strokeWidth={2.3}
               />
             ) : (
               <ChevronLeft
-                size={18}
-                color="#D9D5E8"
-                strokeWidth={2.4}
+                size={17}
+                color="#E5E1EE"
+                strokeWidth={2.3}
               />
             )}
           </Pressable>
