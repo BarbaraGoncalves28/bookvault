@@ -377,6 +377,27 @@ export function BookForm({
         return;
       }
 
+      if (
+        status === 'READING' &&
+        (currentPageValue <= 0 ||
+          currentPageValue >= pageCount)
+      ) {
+        toast.error(
+          'Em "Lendo", a página deve estar entre 1 e o total de páginas.',
+        );
+      return;
+    }
+
+      if (
+        status === 'COMPLETED' &&
+        currentPageValue !== pageCount
+      ) {
+        toast.error(
+          'Em "Lido", a página atual deve ser o total.',
+      );
+      return;
+    }
+
       reviewValue =
         review.trim() || undefined;
     }
