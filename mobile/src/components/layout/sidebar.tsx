@@ -15,7 +15,6 @@ import {
   UserRound,
   ChevronLeft,
   ChevronRight,
-  X,
 } from 'lucide-react-native';
 
 import { usePathname, router } from 'expo-router';
@@ -36,6 +35,7 @@ type SidebarItemProps = {
 
 type SidebarProps = {
   isOpen: boolean;
+  onOpen: () => void;
   onClose: () => void;
 };
 
@@ -74,6 +74,7 @@ const items: SidebarItemProps[] = [
 
 export function Sidebar({
   isOpen,
+  onOpen,
   onClose,
 }: SidebarProps) {
   const pathname = usePathname();
@@ -111,33 +112,17 @@ export function Sidebar({
     setCollapsed((current) => !current);
   }
 
-  /*
-   * No mobile, a Sidebar só existe enquanto estiver aberta.
-   */
-  if (isMobile && !isOpen) {
-    return null;
-  }
-
-  /*
-   * Largura visual da Sidebar.
-   *
-   * Desktop aberta: 256px
-   * Desktop fechada: 80px
-   * Mobile: 280px
-   */
   const sidebarWidth = isMobile
+  ? isOpen
     ? 280
-    : collapsed
-      ? 80
-      : 256;
+    : 80
+  : collapsed
+    ? 80
+    : 256;
 
-  /*
-   * Espaço extra no desktop para o botão
-   * ficar parcialmente para fora sem ser cortado.
-   */
-  const containerWidth = isMobile
-    ? 280
-    : sidebarWidth + 20;
+const containerWidth = isMobile
+  ? sidebarWidth + 20
+  : sidebarWidth + 20;
 
   return (
     <>
@@ -152,14 +137,13 @@ export function Sidebar({
       {/* CONTAINER EXTERNO */}
       <View
         className={`
-          relative
-          h-full
-          ${
-            isMobile
-              ? 'absolute left-0 top-0 z-50'
-              : 'relative z-0'
-          }
-        `}
+  h-full
+  ${
+    isMobile
+      ? 'absolute left-0 top-0 z-50'
+      : 'relative z-0'
+  }
+`}
         style={{
           width: containerWidth,
         }}
@@ -232,35 +216,6 @@ export function Sidebar({
                     resizeMode="cover"
                   />
                 </View>
-
-                {/* BOTÃO FECHAR — MOBILE */}
-                {isMobile ? (
-                  <Pressable
-                    onPress={onClose}
-                    hitSlop={8}
-                    className="
-                      absolute
-                      right-0
-                      top-1
-                      h-10
-                      w-10
-                      items-center
-                      justify-center
-                      rounded-xl
-                      border
-                      bg-[#201E2E]
-                    "
-                    style={{
-                      borderColor: '#3A364D',
-                    }}
-                  >
-                    <X
-                      size={18}
-                      color="#E5E1EE"
-                      strokeWidth={2.2}
-                    />
-                  </Pressable>
-                ) : null}
               </View>
 
               {/* NAVEGAÇÃO */}
@@ -445,51 +400,73 @@ export function Sidebar({
           </View>
         </View>
 
-        {/* BOTÃO ABRIR / FECHAR — DESKTOP */}
-        {!isMobile ? (
-          <Pressable
-            onPress={handleToggleDesktop}
-            hitSlop={8}
-            className="
-              absolute
-              right-0
-              top-6
-              z-50
-              h-9
-              w-9
-              items-center
-              justify-center
-              rounded-full
-              border
-              bg-[#201E2E]
-            "
-            style={{
-              borderColor: '#3A364D',
-              shadowColor: '#000000',
-              shadowOffset: {
-                width: 0,
-                height: 3,
-              },
-              shadowOpacity: 0.28,
-              shadowRadius: 8,
-              elevation: 8,
-            }}
-          >
-            {collapsed ? (
-              <ChevronRight
-                size={17}
-                color="#E5E1EE"
-                strokeWidth={2.3}
-              />
-            ) : (
-              <ChevronLeft
-                size={17}
-                color="#E5E1EE"
-                strokeWidth={2.3}
-              />
-            )}
-          </Pressable>
-        ) : null}
+        {/* BOTÃO ABRIR / FECHAR */}
+<Pressable
+  onPress={() => {
+  if (isMobile) {
+    if (isOpen) {
+      onClose();
+    } else {
+      onOpen();
+    }
+  } else {
+    handleToggleDesktop();
+  }
+}}
+  hitSlop={8}
+  className="
+    absolute
+    right-0
+    top-6
+    z-50
+    h-9
+    w-9
+    items-center
+    justify-center
+    rounded-full
+    border
+    bg-[#201E2E]
+  "
+  style={{
+    borderColor: '#3A364D',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.28,
+    shadowRadius: 8,
+    elevation: 8,
+  }}
+>
+  {isMobile ? (
+    isOpen ? (
+      <ChevronLeft
+        size={17}
+        color="#E5E1EE"
+        strokeWidth={2.3}
+      />
+    ) : (
+      <ChevronRight
+        size={17}
+        color="#E5E1EE"
+        strokeWidth={2.3}
+      />
+    )
+  ) : collapsed ? (
+    <ChevronRight
+      size={17}
+      color="#E5E1EE"
+      strokeWidth={2.3}
+    />
+  ) : (
+    <ChevronLeft
+      size={17}
+      color="#E5E1EE"
+      strokeWidth={2.3}
+    />
+  )}
+</Pressable>
       </View>
     </>
   );

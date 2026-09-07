@@ -1,8 +1,5 @@
 import { Redirect, Stack } from 'expo-router';
-import { Pressable, View } from 'react-native';
-import {
-  PanelLeftOpen,
-} from 'lucide-react-native';
+import { View, useWindowDimensions, } from 'react-native';
 import { useState } from 'react';
 
 import { Sidebar } from '../../components/layout/sidebar';
@@ -10,9 +7,12 @@ import { useAuth } from '../../hooks/use-auth';
 
 export default function PrivateLayout() {
   const { isAuthenticated } = useAuth();
+  const { width } = useWindowDimensions();
+
+  const isMobile = width < 768;
 
   const [sidebarOpen, setSidebarOpen] =
-    useState(false);
+    useState(() => !isMobile);
 
   if (!isAuthenticated) {
     return <Redirect href="/login" />;
@@ -23,28 +23,17 @@ export default function PrivateLayout() {
 
       {/* SIDEBAR */}
       <Sidebar
-        isOpen={sidebarOpen}
-        onClose={() =>
-          setSidebarOpen(false)
-        }
-      />
+  isOpen={sidebarOpen}
+  onOpen={() =>
+    setSidebarOpen(true)
+  }
+  onClose={() =>
+    setSidebarOpen(false)
+  }
+/>
 
       {/* CONTEÚDO */}
       <View className="min-w-0 flex-1 overflow-hidden">
-
-        {/* BOTÃO PARA ABRIR NO MOBILE */}
-        <Pressable
-          onPress={() =>
-            setSidebarOpen(true)
-          }
-          className="absolute left-4 top-4 z-30 h-10 w-10 items-center justify-center rounded-xl bg-[#17152B] md:hidden"
-        >
-          <PanelLeftOpen
-            size={21}
-            color="#FFFFFF"
-            strokeWidth={2}
-          />
-        </Pressable>
 
         <Stack
           screenOptions={{
