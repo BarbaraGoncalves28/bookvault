@@ -1012,7 +1012,7 @@ export function BookForm({
         <FormDivider />
 
         {/* AÇÕES */}
-        <View className="flex-col-reverse gap-3 p-5 md:flex-row md:items-center md:justify-end md:p-8">
+        <View className="flex-row justify-end gap-3 p-5 md:items-center md:p-8">
           <Button
             title="Cancelar"
             variant="danger"
@@ -1023,7 +1023,7 @@ export function BookForm({
               isSubmitting ||
               isUploadingCover
             }
-            className="w-full md:w-auto md:px-7"
+            className="flex-1 md:flex-none md:px-7"
           />
 
           <Button
@@ -1033,7 +1033,7 @@ export function BookForm({
               isSubmitting ||
               isUploadingCover
             }
-            className="w-full md:w-auto md:px-7"
+            className="flex-1 md:flex-none md:px-7"
           />
         </View>
       </Card>

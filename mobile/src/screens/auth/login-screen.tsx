@@ -65,14 +65,14 @@ export function LoginScreen() {
       <SafeAreaView className="flex-1">
         <ScrollView
           className="flex-1"
-          contentContainerClassName="flex-grow items-center justify-center px-5 py-10"
+          contentContainerClassName="flex-grow items-center justify-center px-4 py-6 md:px-5 md:py-10"
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
           <View className="w-full max-w-md">
 
             {/* BRAND */}
-            <View className="mb-7 items-center">
+            <View className="mb-6 items-center md:mb-7">
               <View className="relative">
                 <View className="absolute -inset-2 rounded-[30px] bg-brand-500/15" />
 
@@ -80,9 +80,9 @@ export function LoginScreen() {
                   <Image
                     source={require('../../../assets/logo.png')}
                     style={{
-                      width: 86,
-                      height: 86,
-                      borderRadius: 22,
+                      width: 78,
+                      height: 78,
+                      borderRadius: 20,
                     }}
                     resizeMode="cover"
                   />
@@ -111,19 +111,19 @@ export function LoginScreen() {
               "
             >
               {/* CARD HEADER */}
-              <View className="items-center border-b border-white/45 px-6 pb-6 pt-7 md:px-7">
-                <Text className="text-center text-[30px] font-bold tracking-tight text-night-900">
+              <View className="items-center border-b border-white/45 px-5 pb-5 pt-6 md:px-7 md:pb-6 md:pt-7">
+                <Text className="text-center text-[26px] font-bold tracking-tight text-night-900 md:text-[30px]">
                   Bem-vindo de volta
                 </Text>
 
-                <Text className="mt-2 max-w-sm text-sm text-center leading-5 text-white">
+                <Text className="mt-2 max-w-sm px-1 text-center text-sm leading-5 text-white">
                   Entre na sua conta
                   e acompanhe sua biblioteca.
                 </Text>
               </View>
 
               {/* FORM */}
-              <View className="px-6 pb-6 pt-6 md:px-7 md:pb-7">
+              <View className="px-5 pb-5 pt-5 md:px-7 md:pb-7 md:pt-6">
                 <View className="gap-5">
                   <TextInputField
                     label="E-mail:"
@@ -173,7 +173,7 @@ export function LoginScreen() {
                 </View>
 
                 {/* REGISTER LINK */}
-                <View className="mt-6 flex-row items-center justify-center">
+                <View className="mt-6 flex-row flex-wrap items-center justify-center px-2">
                   <Text className="text-sm font-medium text-night-600">
                     Ainda não possui uma conta?
                   </Text>

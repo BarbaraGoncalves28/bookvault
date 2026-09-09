@@ -51,7 +51,7 @@ export function Button({
       )}
     >
       {isLoading ? <ActivityIndicator color={variant === 'secondary' ? '#0f172a' : '#ffffff'} /> : icon}
-      <Text className={cn('text-base font-semibold', textVariants[variant])}>{title}</Text>
+      <Text className={cn('whitespace-nowrap text-base font-semibold', textVariants[variant])}>{title}</Text>
     </Pressable>
   );
 }

@@ -261,7 +261,7 @@ export function BookDetailsScreen() {
             "
           >
             <View className="p-5 md:p-8">
-              <View className="gap-8 md:flex-row">
+              <View className="gap-6 md:gap-8 md:flex-row">
                 {/* CAPA */}
                 <View className="items-center md:w-[280px] md:items-start">
                   <View

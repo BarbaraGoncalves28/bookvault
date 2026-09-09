@@ -446,7 +446,7 @@ export default function EditProfileScreen() {
             TÍTULO DA PÁGINA
         ========================== */}
         <View className="mx-3">
-          <View className="flex-row items-start gap-4">
+          <View className="flex-row items-start gap-3 md:gap-4">
             <View className="h-12 w-12 items-center justify-center rounded-2xl bg-brand-50">
               <Contact
                 size={23}
@@ -664,9 +664,9 @@ export default function EditProfileScreen() {
             <View className="mt-6 flex-row flex-wrap gap-4">
 
               {/* NOME */}
-              <View className="min-w-[280px] flex-1 gap-2">
+              <View className="w-full gap-2 md:min-w-[280px] md:flex-1">
                 <Text className="text-sm font-bold text-night-900">
-                  Nome
+                  Nome:
                 </Text>
 
                 <TextInput
@@ -691,9 +691,9 @@ export default function EditProfileScreen() {
               </View>
 
               {/* E-MAIL */}
-              <View className="min-w-[280px] flex-1 gap-2">
+              <View className="w-full gap-2 md:min-w-[280px] md:flex-1">
                 <Text className="text-sm font-bold text-night-900">
-                  E-mail
+                  E-mail:
                 </Text>
 
                 <View
@@ -754,9 +754,9 @@ export default function EditProfileScreen() {
             <View className="mt-6 flex-row flex-wrap gap-4">
 
               {/* SENHA ATUAL */}
-              <View className="min-w-[280px] flex-1 gap-2">
+              <View className="w-full gap-2 md:min-w-[280px] md:flex-1">
                 <Text className="text-sm font-bold text-night-900">
-                  Senha atual
+                  Senha atual:
                 </Text>
 
                 <View className="relative">
@@ -823,9 +823,9 @@ export default function EditProfileScreen() {
               </View>
 
               {/* NOVA SENHA */}
-              <View className="min-w-[280px] flex-1 gap-2">
+              <View className="w-full gap-2 md:min-w-[280px] md:flex-1">
                 <Text className="text-sm font-bold text-night-900">
-                  Nova senha
+                  Nova senha:
                 </Text>
 
                 <View className="relative">
@@ -896,9 +896,9 @@ export default function EditProfileScreen() {
               </View>
 
               {/* CONFIRMAR NOVA SENHA */}
-              <View className="min-w-[280px] flex-1 gap-2">
+              <View className="w-full gap-2 md:min-w-[280px] md:flex-1">
                 <Text className="text-sm font-bold text-night-900">
-                  Confirmar nova senha
+                  Confirmar nova senha:
                 </Text>
 
                 <View className="relative">
@@ -973,28 +973,27 @@ export default function EditProfileScreen() {
               AÇÕES
           ========================== */}
           <View
-            className="
-              flex-col
-              gap-3
-              p-5
-              md:flex-row
-              md:items-center
-              md:justify-end
-              md:p-6
-            "
-          >
+  className="
+    flex-row
+    gap-3
+    p-5
+    md:items-center
+    md:justify-end
+    md:p-6
+  "
+>
             <Button
               title="Cancelar"
               variant="danger"
               onPress={() => router.back()}
               disabled={saving}
-              className="w-full px-6 md:w-auto"
+              className="flex-1 min-w-0 px-2 md:flex-none md:px-6"
             />
 
             <Button
               title={
                 saving
-                  ? 'Salvando alterações...'
+                  ? 'Salvando...'
                   : 'Salvar alterações'
               }
               onPress={() => void handleSave()}
@@ -1002,7 +1001,7 @@ export default function EditProfileScreen() {
                 saving || profileLoading
               }
               isLoading={saving}
-              className="w-full px-6 md:w-auto"
+              className="flex-1 min-w-0 px-2 md:flex-none md:px-6"
             />
           </View>
         </Card>

@@ -162,7 +162,7 @@ export function BookFormScreen({
       </View>
 
       {/* CABEÇALHO */}
-      <View className="mb-7 flex-row items-start gap-4">
+      <View className="mb-7 flex-row items-start gap-3 md:gap-4">
         <View className="h-12 w-12 items-center justify-center rounded-2xl bg-brand-50">
           {isEditMode ? (
             <FilePenLine

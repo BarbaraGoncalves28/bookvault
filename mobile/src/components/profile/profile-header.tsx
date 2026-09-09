@@ -45,13 +45,22 @@ export function ProfileHeader({
         border-lavender-200
         bg-white
         shadow-soft
+        md:mx-0
       "
     >
       {/* CONTEÚDO PRINCIPAL */}
       <View className="p-5 md:p-6">
-        <View className="flex-col gap-5 md:flex-row md:items-center">
+        <View
+          className="
+            flex-col
+            items-center
+            gap-5
+            md:flex-row
+            md:items-center
+          "
+        >
           {/* AVATAR */}
-          <View className="relative self-start">
+          <View className="relative items-center">
             <ProfileAvatar
               name={name}
               avatarUrl={avatarUrl}
@@ -61,15 +70,26 @@ export function ProfileHeader({
           </View>
 
           {/* INFORMAÇÕES */}
-          <View className="min-w-0 flex-1">
-            <View className="flex-row items-center gap-2">
+          <View
+            className="
+              min-w-0
+              w-full
+              items-center
+              md:flex-1
+              md:items-start
+              md:w-auto
+            "
+          >
+            <View className="w-full items-center md:items-start">
               <Text
                 numberOfLines={1}
                 className="
-                  flex-shrink
+                  max-w-full
+                  text-center
                   text-2xl
                   font-bold
                   text-night-900
+                  md:text-left
                   md:text-[28px]
                 "
               >
@@ -78,8 +98,16 @@ export function ProfileHeader({
             </View>
 
             <Text
-              numberOfLines={1}
-              className="mt-1 text-sm text-night-500 md:text-base"
+              numberOfLines={2}
+              className="
+                mt-1
+                max-w-full
+                text-center
+                text-sm
+                text-night-500
+                md:text-left
+                md:text-base
+              "
             >
               {email || 'E-mail não disponível'}
             </Text>
@@ -138,7 +166,7 @@ export function ProfileHeader({
               ],
             })}
             className="
-              self-start
+              self-center
               rounded-xl
               border
               border-lavender-200
@@ -152,7 +180,7 @@ export function ProfileHeader({
               <View className="h-7 w-7 items-center justify-center rounded-lg bg-brand-50">
                 <Pencil
                   size={14}
-                  color='#CA5CDD'
+                  color="#CA5CDD"
                   strokeWidth={2}
                 />
               </View>
@@ -166,11 +194,20 @@ export function ProfileHeader({
       </View>
 
       {/* FAIXA INFERIOR */}
-      <View className="border-t border-lavender-100 bg-lavender-50/50 px-5 py-3.5 md:px-6">
-        <View className="flex-row items-center">
-          <View className="mr-2 h-1.5 w-1.5 rounded-full bg-brand-500" />
+      <View
+        className="
+          border-t
+          border-lavender-100
+          bg-lavender-50/50
+          px-5
+          py-3.5
+          md:px-6
+        "
+      >
+        <View className="flex-row items-start md:items-center">
+          <View className="mr-2 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500 md:mt-0" />
 
-          <Text className="text-xs font-medium text-night-500">
+          <Text className="flex-1 text-xs font-medium text-night-500">
             Seu espaço pessoal para organizar e acompanhar sua jornada de leitura.
           </Text>
         </View>
