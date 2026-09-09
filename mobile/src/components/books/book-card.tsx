@@ -31,15 +31,15 @@ export function BookCard({
   const isReading = book.status === 'READING';
   const isToRead = book.status === 'TO_READ';
 
-  const progress =
-    isReading && book.pages > 0
-      ? Math.min(
-          Math.round(
-            ((book.currentPage ?? 0) / book.pages) * 100,
-          ),
-          100,
-        )
-      : 0;
+const progress =
+  isReading && (book.pages ?? 0) > 0
+    ? Math.min(
+        Math.round(
+          ((book.currentPage ?? 0) / (book.pages ?? 1)) * 100,
+        ),
+        100,
+      )
+    : 0;
 
   return (
     <Pressable
