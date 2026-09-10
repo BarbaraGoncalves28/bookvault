@@ -124,8 +124,8 @@ export function BookFormScreen({
 
   if (isLoading) {
     return (
-      <Screen>
-        <View className="min-h-screen flex-1 items-center justify-center">
+      <Screen className="flex-1 min-h-0">
+        <View className="flex-1 items-center justify-center">
           <LoadingState message="Carregando livro..." />
         </View>
       </Screen>

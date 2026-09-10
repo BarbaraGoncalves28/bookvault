@@ -509,129 +509,116 @@ export default function EditProfileScreen() {
               </View>
             </View>
 
-            <View className="mt-6 items-center">
-              <View className="relative">
+            
+<View className="mt-6 items-center">
+  {/* AVATAR */}
+  {displayAvatar ? (
+    <Image
+      source={{
+        uri: displayAvatar,
+      }}
+      className="
+        h-32
+        w-32
+        rounded-full
+        border-4
+        border-brand-500
+      "
+      resizeMode="cover"
+    />
+  ) : (
+    <View
+      className="
+        h-32
+        w-32
+        items-center
+        justify-center
+        rounded-full
+        border-4
+        border-brand-500
+        bg-brand-500
+      "
+    >
+      <Text className="text-4xl font-bold text-white">
+        {displayName
+          .trim()
+          .charAt(0)
+          .toUpperCase() || 'U'}
+      </Text>
+    </View>
+  )}
 
-                {/* AVATAR */}
-                {displayAvatar ? (
-                  <Image
-                    source={{
-                      uri: displayAvatar,
-                    }}
-                    className="
-                      h-32
-                      w-32
-                      rounded-full
-                      border-4
-                      border-brand-500
-                    "
-                    resizeMode="cover"
-                  />
-                ) : (
-                  <View
-                    className="
-                      h-32
-                      w-32
-                      items-center
-                      justify-center
-                      rounded-full
-                      border-4
-                      border-brand-500
-                      bg-brand-500
-                    "
-                  >
-                    <Text className="text-4xl font-bold text-white">
-                      {displayName
-                        .trim()
-                        .charAt(0)
-                        .toUpperCase() || 'U'}
-                    </Text>
-                  </View>
-                )}
+  {/* AÇÕES DA FOTO */}
+  <View className="-mt-5 flex-row items-center justify-center gap-2">
+    {/* ALTERAR FOTO */}
+    <Pressable
+      onPress={() => void handlePickImage()}
+      disabled={saving}
+      accessibilityRole="button"
+      accessibilityLabel="Alterar foto de perfil"
+      hitSlop={6}
+      style={({ pressed }) => ({
+        opacity: pressed ? 0.75 : 1,
+        transform: [
+          {
+            scale: pressed ? 0.95 : 1,
+          },
+        ],
+      })}
+      className="
+        h-8
+        w-8
+        items-center
+        justify-center
+        rounded-full
+        border-2
+        border-white
+        bg-brand-500
+      "
+    >
+      <Camera
+        size={14}
+        color="#FFFFFF"
+        strokeWidth={2.3}
+      />
+    </Pressable>
 
-                {/* AÇÕES DA FOTO */}
-                <View
-                  className="
-                    absolute
-                    -bottom-1
-                    left-1/2
-                    z-50
-                    -translate-x-1/2
-                    flex-row
-                    items-center
-                    gap-2
-                  "
-                >
-                  {/* ALTERAR FOTO */}
-                  <Pressable
-                    onPress={() => void handlePickImage()}
-                    disabled={saving}
-                    accessibilityRole="button"
-                    accessibilityLabel="Alterar foto de perfil"
-                    hitSlop={6}
-                    style={({ pressed }) => ({
-                      opacity: pressed ? 0.75 : 1,
-                      transform: [
-                        {
-                          scale: pressed ? 0.95 : 1,
-                        },
-                      ],
-                    })}
-                    className="
-                      h-8
-                      w-8
-                      items-center
-                      justify-center
-                      rounded-full
-                      border-2
-                      border-white
-                      bg-brand-500
-                    "
-                  >
-                    <Camera
-                      size={14}
-                      color="#FFFFFF"
-                      strokeWidth={2.3}
-                    />
-                  </Pressable>
-
-                  {/* REMOVER FOTO */}
-                  {displayAvatar ? (
-                    <Pressable
-                      onPress={handleRemoveAvatar}
-                      disabled={saving}
-                      accessibilityRole="button"
-                      accessibilityLabel="Remover foto de perfil"
-                      hitSlop={6}
-                      style={({ pressed }) => ({
-                        opacity: pressed ? 0.75 : 1,
-                        transform: [
-                          {
-                            scale: pressed ? 0.95 : 1,
-                          },
-                        ],
-                      })}
-                      className="
-                        h-8
-                        w-8
-                        items-center
-                        justify-center
-                        rounded-full
-                        border-2
-                        border-white
-                        bg-[#FF0000]
-                      "
-                    >
-                      <Trash2
-                        size={14}
-                        color="#FFFFFF"
-                        strokeWidth={2.3}
-                      />
-                    </Pressable>
-                  ) : null}
-                </View>
-              </View>
-            </View>
+    {/* REMOVER FOTO */}
+    {displayAvatar ? (
+      <Pressable
+        onPress={handleRemoveAvatar}
+        disabled={saving}
+        accessibilityRole="button"
+        accessibilityLabel="Remover foto de perfil"
+        hitSlop={6}
+        style={({ pressed }) => ({
+          opacity: pressed ? 0.75 : 1,
+          transform: [
+            {
+              scale: pressed ? 0.95 : 1,
+            },
+          ],
+        })}
+        className="
+          h-8
+          w-8
+          items-center
+          justify-center
+          rounded-full
+          border-2
+          border-white
+          bg-[#FF0000]
+        "
+      >
+        <Trash2
+          size={14}
+          color="#FFFFFF"
+          strokeWidth={2.3}
+        />
+      </Pressable>
+    ) : null}
+  </View>
+</View>
           </View>
 
           {/* DIVISÓRIA */}

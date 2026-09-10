@@ -1,5 +1,13 @@
-import type { TextInputProps } from 'react-native';
-import { Text, TextInput, View } from 'react-native';
+import type {
+  TextInputProps,
+  TextStyle,
+} from 'react-native';
+import {
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+
 import { cn } from '../../utils/cn';
 
 type BookFormInputProps = TextInputProps & {
@@ -12,8 +20,18 @@ export function BookFormInput({
   error,
   className,
   style,
+  multiline,
   ...props
 }: BookFormInputProps) {
+  const multilineStyle: TextStyle | undefined =
+    multiline
+      ? {
+          height: 144,
+          minHeight: 144,
+          textAlignVertical: 'top',
+        }
+      : undefined;
+
   return (
     <View className="gap-2">
       <Text className="text-sm font-bold text-night-900">
@@ -22,7 +40,10 @@ export function BookFormInput({
 
       <View
         className={cn(
-          'min-h-12 overflow-hidden rounded-2xl border',
+          'overflow-hidden rounded-2xl border',
+          multiline
+            ? 'h-[144px]'
+            : 'min-h-12',
           error
             ? 'border-red-400'
             : 'border-lavender-200',
@@ -33,8 +54,12 @@ export function BookFormInput({
       >
         <TextInput
           {...props}
+          multiline={multiline}
           className={cn(
-            'book-form-input min-h-12 flex-1 px-4 text-base',
+            'book-form-input w-full px-4 text-base',
+            multiline
+              ? 'h-[144px] py-3'
+              : 'h-12',
             className,
           )}
           style={[
@@ -46,6 +71,7 @@ export function BookFormInput({
               color: '#201E2E',
               boxShadow: 'none',
             },
+            multilineStyle,
             style,
           ]}
           placeholderTextColor="#9995A6"

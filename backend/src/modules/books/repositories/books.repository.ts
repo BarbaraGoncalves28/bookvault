@@ -141,29 +141,26 @@ export class BooksRepository {
       break;
   }
 
-  const [items, totalItems] =
-    await prisma.$transaction([
-      prisma.book.findMany({
-        where,
+  const items = await prisma.book.findMany({
+    where,
 
+    include: {
+      genres: {
         include: {
-          genres: {
-            include: {
-              genre: true,
-            },
-          },
+          genre: true,
         },
+      },
+    },
 
-        orderBy,
+    orderBy,
 
-        skip,
-        take: limit,
-      }),
+    skip,
+    take: limit,
+  });
 
-      prisma.book.count({
-        where,
-      }),
-    ]);
+  const totalItems = await prisma.book.count({
+    where,
+  });
 
   return {
     items,

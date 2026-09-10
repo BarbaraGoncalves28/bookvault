@@ -634,7 +634,7 @@ export function BooksListScreen({
 
   if (isLoading) {
     return (
-      <Screen className="min-h-screen flex-1">
+      <Screen className="flex-1 min-h-0">
         <View className="flex-1 items-center justify-center">
           <LoadingState message="Carregando sua biblioteca..." />
         </View>
@@ -648,7 +648,7 @@ export function BooksListScreen({
 
   if (error) {
     return (
-      <Screen className="min-h-screen">
+      <Screen className="flex-1 min-h-0">
         <View className="flex-1 items-center justify-center">
           <FeedbackState
             title="Algo saiu do eixo"

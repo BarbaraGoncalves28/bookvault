@@ -989,7 +989,6 @@ export function BookForm({
                 multiline
                 textAlignVertical="top"
                 placeholder="Uma breve descrição do livro..."
-                className="min-h-36 py-3"
               />
             </View>
 
@@ -1002,7 +1001,6 @@ export function BookForm({
                   multiline
                   textAlignVertical="top"
                   placeholder="Sua opinião, pensamentos e notas sobre a leitura..."
-                  className="min-h-36 py-3"
                 />
               </View>
             ) : null}

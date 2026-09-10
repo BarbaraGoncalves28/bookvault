@@ -8,16 +8,16 @@ datasource db {
 }
 
 model User {
-  id                String   @id @default(uuid())
-  name              String   @db.VarChar(120)
-  email             String   @unique @db.VarChar(255)
-  password          String   @db.VarChar(255)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id                String        @id @default(uuid())
+  name              String        @db.VarChar(120)
+  email             String        @unique @db.VarChar(255)
+  password          String        @db.VarChar(255)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
   avatarUrl         String?
-  annualReadingGoal Int      @default(0)
+  annualReadingGoal Int           @default(0)
+  readingGoals      ReadingGoal[]
   books             Book[]
-  readingGoals ReadingGoal[]
 
   @@index([email])
   @@map("users")
@@ -74,12 +74,6 @@ model BookGenre {
   @@map("book_genres")
 }
 
-enum BookStatus {
-  TO_READ
-  READING
-  COMPLETED
-}
-
 model ReadingGoal {
   id        String   @id @default(cuid())
   userId    String
@@ -87,9 +81,14 @@ model ReadingGoal {
   goal      Int      @default(12)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, year])
   @@index([userId])
+}
+
+enum BookStatus {
+  TO_READ
+  READING
+  COMPLETED
 }

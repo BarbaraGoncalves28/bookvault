@@ -150,8 +150,8 @@ export function BookDetailsScreen() {
 
   if (isLoading) {
     return (
-      <Screen>
-        <View className="min-h-screen flex-1 items-center justify-center">
+      <Screen className="flex-1 min-h-0">
+        <View className="flex-1 items-center justify-center">
           <LoadingState message="Carregando detalhes do livro..." />
         </View>
       </Screen>
@@ -441,9 +441,9 @@ export function BookDetailsScreen() {
                   {/* GÊNEROS */}
 {book.genres.length > 0 ? (
   <View className="mt-5 flex-row flex-wrap gap-2">
-    {book.genres.map((bookGenre) => (
+    {book.genres.map((bookGenre, index) => (
       <View
-        key={bookGenre.id}
+        key={`${bookGenre.genreId}-${bookGenre.id ?? index}`}
         className="
           rounded-full
           border
