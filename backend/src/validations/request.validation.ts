@@ -14,10 +14,14 @@ export function validateBody(body: unknown, schema: ValidationSchema) {
   });
 }
 
-export function requiredString(field: string, maxLength: number) {
+export function requiredString(
+  field: string,
+  maxLength: number,
+  requiredMessage = `${field} is required.`,
+) {
   return (value: unknown) => {
     if (typeof value !== 'string' || value.trim().length === 0) {
-      throw new AppError(`${field} is required.`, 400);
+      throw new AppError(requiredMessage, 400);
     }
 
     if (value.trim().length > maxLength) {

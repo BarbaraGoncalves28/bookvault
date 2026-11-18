@@ -214,14 +214,14 @@ export function RegisterScreen() {
                 </View>
 
                 {/* LOGIN LINK */}
-                <View className="mt-6 flex-row flex-wrap items-center justify-center px-2">
-                  <Text className="text-sm font-medium text-night-600">
+                <View className="mt-6 flex-col items-center justify-center gap-2 px-2 md:flex-row md:flex-wrap">
+                  <Text className="text-center text-sm font-medium text-night-600">
                     Já possui uma conta?
                   </Text>
 
                   <Link
                     href="/login"
-                    className="ml-1.5"
+                    className="md:ml-1.5"
                   >
                     <View className="flex-row items-center gap-1">
                       <Text className="text-sm font-bold text-brand-500">

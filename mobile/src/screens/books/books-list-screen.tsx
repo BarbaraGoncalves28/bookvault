@@ -1157,7 +1157,7 @@ export function BooksListScreen({
                   </Pressable>
                 </View>
               </View>
-            ) : null
+            ) : undefined
           }
         />
       </View>
