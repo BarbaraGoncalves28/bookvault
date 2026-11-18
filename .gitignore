@@ -42,3 +42,13 @@ yarn-error.*
 /android
 
 /generated/prisma
+
+# AI assistant files (local only)
+.agents/
+.claude/
+.cursor/
+AGENTS.md
+CLAUDE.md
+.cursorrules
+.github/copilot/
+.github/copilot-instructions.md

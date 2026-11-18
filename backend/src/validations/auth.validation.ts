@@ -46,6 +46,6 @@ export function validateRegisterBody(body: unknown) {
 export function validateLoginBody(body: unknown) {
   validateBody(body, {
     email,
-    password: requiredString('password', 255),
+    password: requiredString('password', 255, 'A senha é obrigatória.'),
   });
 }
