@@ -2,6 +2,12 @@
   "expo": {
     "name": "BookVault",
     "slug": "bookvault",
+    "owner": "barbaragoncalves",
+    "extra": {
+      "eas": {
+         "projectId": "856114b3-e94f-4a16-927d-f364522a8cdd"
+     }
+   },
     "scheme": "bookvault",
     "version": "1.0.0",
     "orientation": "portrait",
