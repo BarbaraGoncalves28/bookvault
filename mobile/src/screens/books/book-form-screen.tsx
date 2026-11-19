@@ -195,7 +195,7 @@ export function BookFormScreen({
         initialBook={book}
         submitLabel={
           isEditMode
-            ? 'Salvar alterações'
+            ? 'Salvar'
             : 'Criar livro'
         }
         onSubmit={handleSubmit}

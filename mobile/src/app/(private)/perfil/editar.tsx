@@ -981,7 +981,7 @@ export default function EditProfileScreen() {
               title={
                 saving
                   ? 'Salvando...'
-                  : 'Salvar alterações'
+                  : 'Salvar'
               }
               onPress={() => void handleSave()}
               disabled={
