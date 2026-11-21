@@ -454,12 +454,7 @@ export function BookForm({
       {/* FORMULÁRIO */}
       <Card className="overflow-visible gap-0 p-0">
         {/* CAPA + IDENTIFICAÇÃO */}
-        <View
-  className="relative p-5 md:p-8"
-  style={{
-    zIndex: isGenreOpen ? 9999 : 1,
-  }}
->
+        <View className="p-5 md:p-8">
           <SectionHeader
             icon={BookOpen}
             title="Identificação do livro"
@@ -552,7 +547,7 @@ export function BookForm({
             </View>
 
             {/* TÍTULO + AUTOR */}
-            <View className="flex-1 gap-5">
+            <View className="w-full gap-5 md:flex-1">
               <BookFormInput
                 label="Título"
                 value={title}
@@ -573,34 +568,18 @@ export function BookForm({
         <FormDivider />
 
         {/* GÊNEROS + STATUS */}
-        <View
-  className="relative p-5 md:p-8"
-  style={{
-    zIndex: isGenreOpen ? 100 : 1,
-  }}
->
+        <View className="p-5 md:p-8">
           <SectionHeader
             icon={BookMarked}
             title="Classificação e leitura"
             description="Defina os gêneros e acompanhe em que momento da leitura você está."
           />
 
-          <View
-            className="gap-7 md:flex-row"
-            style={{
-              position: 'relative',
-              zIndex: isGenreOpen ? 1000 : 1,
-            }}
-          >
+          <View className="gap-7 md:flex-row md:items-start">
             {/* GÊNEROS */}
-            <View
-              className="relative gap-2 md:flex-1"
-              style={{
-                zIndex: isGenreOpen ? 9999 : 1,
-              }}
-            >
+            <View className="min-w-0 gap-2 md:flex-1">
               <Text className="text-sm font-bold text-night-900">
-                Gêneros
+                Gêneros:
               </Text>
 
               <Pressable
@@ -657,21 +636,11 @@ export function BookForm({
               {/* DROPDOWN */}
               {isGenreOpen ? (
                 <View
-  className="absolute left-0 right-0 overflow-hidden rounded-2xl border border-lavender-200"
-  style={{
-    top: 76,
-    zIndex: 99999,
-    backgroundColor: '#FFFFFF',
-    shadowColor: '#201E2E',
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.16,
-    shadowRadius: 18,
-    elevation: 30,
-  }}
->
+                  className="w-full overflow-hidden rounded-2xl border border-lavender-200"
+                  style={{
+                    backgroundColor: '#FFFFFF',
+                  }}
+                >
                   <View className="border-b border-lavender-200 bg-lavender-100 px-4 py-3">
                     <Text className="text-xs font-bold uppercase tracking-wider text-night-500">
                       Selecionar gêneros
@@ -702,18 +671,12 @@ export function BookForm({
                     >
                       {genres.map((genre) => {
                         const selected =
-                          selectedGenreIds.includes(
-                            genre.id,
-                          );
+                          selectedGenreIds.includes(genre.id);
 
                         return (
                           <Pressable
                             key={genre.id}
-                            onPress={() =>
-                              toggleGenre(
-                                genre.id,
-                              )
-                            }
+                            onPress={() => toggleGenre(genre.id)}
                             className={`flex-row items-center justify-between px-4 py-3.5 ${
                               selected
                                 ? 'bg-brand-50'
@@ -782,12 +745,12 @@ export function BookForm({
             </View>
 
             {/* STATUS */}
-            <View className="gap-3 md:flex-1">
+            <View className="min-w-0 gap-3 md:flex-1">
               <Text className="text-sm font-bold text-night-900">
-                Status de leitura
+                Status de leitura:
               </Text>
 
-              <View className="gap-2">
+              <View className="w-full gap-2">
                 {bookStatusOptions.map(
                   (option) => {
                     const selected =
@@ -818,6 +781,10 @@ export function BookForm({
                             ? 'border-brand-300 bg-brand-50'
                             : 'border-lavender-200 bg-white'
                         }`}
+                        style={{
+                          minHeight: 48,
+                          width: '100%',
+                        }}
                       >
                         <View className="flex-row items-center gap-3">
                           <View

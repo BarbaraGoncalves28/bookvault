@@ -1,83 +1,97 @@
+
 import { Platform } from 'react-native';
+import { fetch as expoFetch } from 'expo/fetch';
+import { File } from 'expo-file-system';
 
 import { env } from '../config/env';
 
 type CloudinaryUploadResponse = {
   secure_url: string;
   public_id: string;
+  error?: {
+    message?: string;
+  };
 };
+
+function getImageMimeType(uri: string): string {
+  const cleanUri = uri.split('?')[0].toLowerCase();
+
+  if (cleanUri.endsWith('.png')) return 'image/png';
+  if (cleanUri.endsWith('.webp')) return 'image/webp';
+  if (cleanUri.endsWith('.gif')) return 'image/gif';
+
+  return 'image/jpeg';
+}
 
 export async function uploadImageToCloudinary(
   imageUri: string,
 ): Promise<string> {
   const formData = new FormData();
 
-  if (Platform.OS === 'web') {
-    /*
-     * No Web, o URI da imagem precisa ser convertido
-     * para Blob antes de ser enviado ao Cloudinary.
-     */
-    const imageResponse = await fetch(imageUri);
+  try {
+    if (Platform.OS === 'web') {
+      const imageResponse = await fetch(imageUri);
 
-    if (!imageResponse.ok) {
+      if (!imageResponse.ok) {
+        throw new Error('Não foi possível carregar a imagem selecionada.');
+      }
+
+      const blob = await imageResponse.blob();
+      const mimeType = blob.type || getImageMimeType(imageUri);
+      const extension = mimeType.split('/')[1] || 'jpg';
+
+      formData.append('file', blob, `book-cover.${extension}`);
+    } else {
+      const imageFile = new File(imageUri);
+
+      if (!imageFile.exists) {
+        throw new Error('O arquivo da imagem selecionada não foi encontrado.');
+      }
+
+      formData.append('file', imageFile);
+    }
+
+    formData.append('upload_preset', env.cloudinaryUploadPreset);
+
+    const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${env.cloudinaryCloudName}/image/upload`;
+
+    const response =
+      Platform.OS === 'web'
+        ? await fetch(cloudinaryUrl, {
+            method: 'POST',
+            body: formData,
+          })
+        : await expoFetch(cloudinaryUrl, {
+            method: 'POST',
+            body: formData,
+          });
+
+    const data =
+      (await response.json()) as CloudinaryUploadResponse;
+
+    if (!response.ok) {
+      console.error('Cloudinary upload error:', response.status, data);
+
       throw new Error(
-        'Não foi possível carregar a imagem selecionada.',
+        data.error?.message ||
+          'O serviço de imagens não conseguiu receber a capa.',
       );
     }
 
-    const blob = await imageResponse.blob();
+    if (!data.secure_url) {
+      throw new Error('O serviço de imagens não retornou o endereço da capa.');
+    }
 
-    formData.append('file', blob, 'book-cover.jpg');
-  } else {
-    /*
-     * No Android/iOS, o React Native aceita o formato
-     * { uri, type, name } no FormData.
-     */
-    formData.append(
-      'file',
-      {
-        uri: imageUri,
-        type: 'image/jpeg',
-        name: 'book-cover.jpg',
-      } as never,
-    );
-  }
+    return data.secure_url;
+  } catch (error) {
+    console.error('Erro ao enviar capa:', error);
 
-  formData.append(
-    'upload_preset',
-    env.cloudinaryUploadPreset,
-  );
-
-  const response = await fetch(
-    `https://api.cloudinary.com/v1_1/${env.cloudinaryCloudName}/image/upload`,
-    {
-      method: 'POST',
-      body: formData,
-    },
-  );
-
-  if (!response.ok) {
-    const errorText = await response.text();
-
-    console.error(
-      'Cloudinary upload error:',
-      response.status,
-      errorText,
-    );
+    if (error instanceof Error && error.message.startsWith('Não foi possível')) {
+      throw error;
+    }
 
     throw new Error(
-      `Não foi possível enviar a imagem para o Cloudinary. ${errorText}`,
+      'Não foi possível enviar a capa. Verifique sua conexão e tente novamente.',
     );
   }
-
-  const data =
-    (await response.json()) as CloudinaryUploadResponse;
-
-  if (!data.secure_url) {
-    throw new Error(
-      'O Cloudinary não retornou a URL da imagem.',
-    );
-  }
-
-  return data.secure_url;
 }

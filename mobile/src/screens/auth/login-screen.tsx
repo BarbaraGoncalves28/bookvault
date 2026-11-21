@@ -149,19 +149,18 @@ export function LoginScreen() {
 
                 {/* ERROR */}
                 {error ? (
-                  <View className="mt-4 overflow-hidden rounded-2xl border border-red-200 bg-red-50/90 px-4 py-3">
-                    <View className="flex-row items-start gap-2.5">
-                      <View className="mt-0.5 h-2 w-2 rounded-full bg-red-500" />
-
-                      <Text
-                        className="flex-1 text-xs font-semibold leading-5"
-                        style={{ color: colors.danger }}
-                      >
-                        {error}
-                      </Text>
-                    </View>
-                  </View>
-                ) : null}
+  <View className="mt-4 overflow-hidden rounded-2xl border border-red-200 bg-red-50/90 px-4 py-3">
+    <View className="flex-row items-center gap-2.5">
+      <View className="h-2 w-2 rounded-full bg-red-500" />
+      <Text
+        className="flex-1 text-xs font-semibold leading-5"
+        style={{ color: colors.danger }}
+      >
+        {error}
+      </Text>
+    </View>
+  </View>
+) : null}
 
                 {/* ACTION */}
                 <View className="mt-8">
